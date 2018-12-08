@@ -24,16 +24,6 @@ export default class App extends React.Component {
       highscore: 100
     });
 
-  //   // Listen for authentication state to change.
-  // firebase.auth().onAuthStateChanged((user) => {
-  //   if (user != null) {
-  //     console.log("We are authenticated now!");
-  //   } else {
-  //     console.log("We are not authenticated now!");
-  //   }
-
-  //   // Do other things
-  // });
   }
 
 
@@ -48,9 +38,6 @@ export default class App extends React.Component {
           />
       );
     } 
-
-    console.log('store ', this.store.getState())
-
     return (
       <Provider store={this.store}>
         <AppNavigator />

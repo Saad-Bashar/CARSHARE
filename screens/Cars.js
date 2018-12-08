@@ -3,35 +3,27 @@ import {
   StyleSheet,
   Text,
   View,
+  ActivityIndicator
 } from 'react-native';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
 import { compose } from 'redux'
 import { Card, Button } from 'react-native-elements';
 import CarList from './CarList'
+import { MonoText } from '../components/StyledText'
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    top: 20,
+    paddingTop: 20,
     backgroundColor: '#fff',
   }
 });
 
-const DATA = [
-  { id: 1, text: 'Card #1', uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-04.jpg' },
-  { id: 2, text: 'Card #2', uri: 'http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg' },
-  { id: 3, text: 'Card #3', uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-09.jpg' },
-  { id: 4, text: 'Card #4', uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-01.jpg' },
-  { id: 5, text: 'Card #5', uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-04.jpg' },
-  { id: 6, text: 'Card #6', uri: 'http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg' },
-  { id: 7, text: 'Card #7', uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-09.jpg' },
-  { id: 8, text: 'Card #8', uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-01.jpg' },
-];
 
 class Cars extends React.Component {
   static navigationOptions = {
-    headerTitle: "Cars",
+    headerTitle: "SOCARS",
     headerRight: (
       <Button
         small
@@ -46,18 +38,13 @@ class Cars extends React.Component {
   renderCard = (item) => {
     return (
       <Card
-        key={item.id}
-        title={item.text}
-        image={{ uri: item.uri }}
+        key={item[0]}
+        title={item[1].Model}
+        image={{ uri: item[1].image }}
       >
-        <Text style={{ marginBottom: 10 }}>
-          I Can Customize the Card Further
-        </Text>
-        <Button
-          icon={{ name: 'code' }}
-          backgroundColor="#03A9F4"
-          title="View Now"
-        />
+        <MonoText style={{ marginBottom: 10, color: '#03A9F4' }}>
+          {`Mileage - ${item[1].Mileage}\nYear - ${item[1].Year}\nTransmission - ${item[1].Transmission}`}
+        </MonoText>
       </Card>
     );
   }
@@ -65,7 +52,7 @@ class Cars extends React.Component {
   renderNoMoreCards = () => {
     return (
       <Card title="All Done!">
-        <Text style={{ marginBottom: 10 }}>There is no more content</Text>
+        <Text style={{ marginBottom: 10 }}>There are no more cars available now!</Text>
         <Button
           backgroundColor="#03A9F4"
           title="Get More"
@@ -76,15 +63,23 @@ class Cars extends React.Component {
 
   render() {
     const { cars } = this.props;
-    if(!cars) return <View />
-    
-    const data = cars && Object.entries(cars)
-    console.log(data)
-    
+    const data = cars && Object.entries(cars);
+
+    if(!cars){
+      return (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <ActivityIndicator 
+            size="large" 
+            color="#0000ff"   
+          />
+        </View>
+      )
+    }
+
     return (
       <View style={styles.container}>
         <CarList
-          data={DATA}
+          data={data}
           renderCard={this.renderCard}
           renderNoMoreCards={this.renderNoMoreCards}
           navigation={this.props.navigation}
@@ -96,7 +91,7 @@ class Cars extends React.Component {
 
 
 export default compose(
-  firebaseConnect((props) => {
+  firebaseConnect(() => {
     return [
       'Cars'
     ]

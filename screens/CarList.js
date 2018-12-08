@@ -71,9 +71,16 @@ class Cars extends Component {
 
     direction === 'right' ? onSwipeRight(item) : onSwipeLeft(item);
     this.state.position.setValue({ x: 0, y: 0 });
-    this.setState({ index: this.state.index + 1 }, () => {
-      this.props.navigation.navigate('Reserve')
-    });
+    
+    if(direction === 'left') {
+      this.setState({ index: this.state.index + 1 }, () => {
+        this.props.navigation.navigate('Reserve')
+      });
+    } else {
+      this.setState({
+        index: this.state.index + 1
+      })
+    }
   }
 
 
@@ -101,7 +108,7 @@ class Cars extends Component {
       if (i === this.state.index) {
         return (
           <Animated.View
-            key={item.id}
+            key={item[0]}
             style={[this.getCardStyle(), styles.cardStyle]}
             {...this.state.panResponder.panHandlers }
           >
@@ -111,7 +118,7 @@ class Cars extends Component {
       }
       return (
         <Animated.View 
-          key={item.id}
+          key={item[0]}
           style={[styles.cardStyle, { top: 10 * (i - this.state.index) }]}
         >
           {this.props.renderCard(item)}
