@@ -1,86 +1,137 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 import t from 'tcomb-form-native';
 var _ = require('lodash');
+import { showMessage, hideMessage } from "react-native-flash-message";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { connect } from 'react-redux';
+import { firebaseConnect } from 'react-redux-firebase';
+import { compose } from 'redux'
 
-const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
-const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
+const homePlace = { 
+  description: 'Home', 
+  geometry: { location: { lat: 4.2105, lng: 101.9758 } 
+}};
+
+const workPlace = { 
+  description: 'Work', 
+  geometry: { location: { lat: 4.2106, lng: 101.9756 } 
+}};
 
 
-
-
-// clone the default stylesheet
 const stylesheet = _.cloneDeep(t.form.Form.stylesheet);
 
-// overriding the text color
 stylesheet.textbox.normal.width = 300;
+stylesheet.controlLabel.normal.color = "#1faadb";
 
 let Form = t.form.Form;
 
-// here we are: define your domain model
-var Person = t.struct({
-  from: t.String, 
-  to: t.String,
-  
+var Reservation = t.struct({
+  pickuptime: t.Date, 
+  hours: t.String,
 });
 
-
-const options = {
-  fields: {
-    from: {
-      stylesheet: stylesheet // overriding the style of the textbox
-    },
-    to: {
-      stylesheet: stylesheet // overriding the style of the textbox
-    }
-  }
+var options = {
+  auto: 'placeholders'
 };
 
-
-
-
-export default class Reserve extends Component {
+class Reserve extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      pickupPoint: '',
+      dropoffPoint: '',
+      showMessage: false
     };
   }
 
+  updateFirebase = (data) => {
+    this.props.firebase.database().ref('/Reservations').push(data, function(error) {
+      if (error) {
+        showMessage({
+          message: "Something went wrong!",
+          type: "danger",
+        });
+      } else {
+        showMessage({
+          message: "Reservation Completed!",
+          type: "success",
+        });
+      }
+    });
+  }
+
   onPress = () => {
-    var value = this.refs.form.getValue();
-    if (value) { // if validation fails, value will be null
-      console.log(value); // value here is an instance of Person
-    }
+    const { pickupPoint, dropoffPoint } = this.state;
+    const { navigation } = this.props;
+    const item = navigation.getParam('item', 'car');
+    const model = item[1].Model;
+  
+    if(pickupPoint && dropoffPoint) {
+      const value = this.refs.form.getValue();
+      if(value) {
+        let data = value;
+        data = Object.assign({ 
+          pickupPoint, 
+          dropoffPoint,
+          model,
+          isActive: true,
+          isComplete: false,
+          time: data.pickuptime.toString()
+        }, data);
+
+        this.updateFirebase(data);
+      }
+    } else {
+      Alert.alert(
+        'Oops',
+        'All the fields are required',
+        [
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        { cancelable: false }
+      )
+    }    
+  }
+
+  onPickupPoint = (data) => {
+    this.setState({
+      pickupPoint: data
+    })
+  }
+
+  onDropoffPoint = (data) => {
+    this.setState({
+      dropoffPoint: data
+    })
   }
 
   render() {
     return (
-      <View style={{ flex: 1, paddingTop: 20, alignItems: 'center', backgroundColor: '#fff' }}>
+      <View style={{ flex: 1, paddingHorizontal: 10, paddingTop: 15, backgroundColor: '#fff' }}>
         <GooglePlacesAutocomplete
-          placeholder='Search'
-          minLength={2} // minimum length of text to search
+          placeholder='Pickup point'
+          minLength={2} 
           autoFocus={false}
-          returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-          listViewDisplayed='auto'    // true/false/undefined
+          returnKeyType={'search'}
+          listViewDisplayed='true'  
           fetchDetails={true}
-          renderDescription={row => row.description} // custom description render
-          onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-            console.log(data, details);
-          }}
-          
+          renderDescription={row => row.description} 
+          onPress={this.onPickupPoint}
           getDefaultValue={() => ''}
-          
           query={{
-            // available options: https://developers.google.com/places/web-service/autocomplete
             key: 'AIzaSyCoILimFA-jNjmsBHy8Vhe2tubGdL1ehx4',
-            language: 'en', // language of the results
-            types: '(cities)' // default: 'geocode'
+            language: 'en', 
+            types: '(cities)' 
           }}
-          
+          currentLocation={true} 
+          currentLocationLabel="Current location"
+          predefinedPlaces={[homePlace, workPlace]}
+          debounce={200} 
           styles={{
             textInputContainer: {
-              width: '100%'
+              width: '100%',
             },
             description: {
               fontWeight: 'bold'
@@ -89,13 +140,67 @@ export default class Reserve extends Component {
               color: '#1faadb'
             }
           }}
-          
         />
-        <Form style={{ width: '100%' }} ref="form" type={Person} options={options} />
-        <TouchableOpacity onPress={this.onPress} underlayColor='#99d9f4'>
-          <Text>Save</Text>
-        </TouchableOpacity>
+        <GooglePlacesAutocomplete
+          placeholder='Dropoff point'
+          minLength={2} 
+          autoFocus={false}
+          returnKeyType={'search'}
+          listViewDisplayed='true' 
+          fetchDetails={true}
+          renderDescription={row => row.description} 
+          onPress={this.onDropoffPoint}
+          getDefaultValue={() => ''}
+          query={{
+            key: 'AIzaSyCoILimFA-jNjmsBHy8Vhe2tubGdL1ehx4',
+            language: 'en', 
+            types: '(cities)' 
+          }}
+          currentLocation={true} 
+          currentLocationLabel="Current location"
+          predefinedPlaces={[homePlace, workPlace]}
+          debounce={200} 
+          styles={{
+            textInputContainer: {
+              width: '100%',
+            },
+            description: {
+              fontWeight: 'bold'
+            },
+            predefinedPlacesDescription: {
+              color: '#1faadb'
+            },
+            
+          }}
+        />
+        <View style={{ flex: 2 }}>
+          <Form ref="form" type={Reservation} options={options}  />
+          <Button
+            small
+            borderRadius={5}
+            fontSize={18}
+            backgroundColor="#02d5ff"
+            title='Reserve' 
+            onPress={this.onPress}  
+          />
+        </View>
       </View>
     );
   }
 }
+
+export default compose(
+  firebaseConnect(() => {
+    return [
+      'Cars'
+    ]
+  }),
+  connect(
+    (state) => {
+      return {
+        cars: state.firebase.data.Cars
+      }
+    } 
+  )
+)(Reserve)
+

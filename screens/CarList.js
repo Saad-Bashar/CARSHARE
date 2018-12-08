@@ -74,7 +74,7 @@ class Cars extends Component {
     
     if(direction === 'left') {
       this.setState({ index: this.state.index + 1 }, () => {
-        this.props.navigation.navigate('Reserve')
+        this.props.navigation.navigate('Reserve', { item })
       });
     } else {
       this.setState({
