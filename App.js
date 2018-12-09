@@ -4,9 +4,10 @@ import { Provider } from 'react-redux';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import ConfigureStore from './ConfigureStore'
-import firebase from 'firebase';
 import FlashMessage from "react-native-flash-message";
 
+
+console.disableYellowBox = true;
 
 export default class App extends React.Component {
   state = {
@@ -23,7 +24,6 @@ export default class App extends React.Component {
       () => this.setState({ authReady: true })
     );
   }
-
 
   render() {
     if ((!this.state.isLoadingComplete && !this.props.skipLoadingScreen) 
