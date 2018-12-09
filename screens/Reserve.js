@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { View, Alert } from 'react-native';
+import { View, Alert, KeyboardAvoidingView } from 'react-native';
 import { Button } from 'react-native-elements';
 import t from 'tcomb-form-native';
 import { showMessage } from "react-native-flash-message";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import { compose } from 'redux'
+import { compose } from 'redux';
+import moment from 'moment';
 
 var _ = require('lodash');
 
@@ -29,12 +30,18 @@ stylesheet.controlLabel.normal.color = "#1faadb";
 let Form = t.form.Form;
 
 var Reservation = t.struct({
-  pickuptime: t.Date, 
   hours: t.String,
+  pickuptime: t.Date, 
 });
 
-var options = {
-  auto: 'placeholders'
+const options = {
+  auto: 'placeholders',
+  fields: {
+    pickuptime: {
+      label: 'Pickup Time',
+      mode: 'date',
+    },
+  },
 };
 
 class Reserve extends Component {
@@ -48,7 +55,8 @@ class Reserve extends Component {
   }
 
   updateFirebase = (data) => {
-    this.props.firebase.database().ref('/Reservations').push(data, function(error) {
+    const { firebase, navigation } = this.props;
+    firebase.database().ref('/Reservations').push(data, function(error) {
       if (error) {
         showMessage({
           message: "Something went wrong!",
@@ -61,6 +69,8 @@ class Reserve extends Component {
         });
       }
     });
+
+    navigation.goBack();
   }
 
   onPress = () => {
@@ -110,7 +120,7 @@ class Reserve extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, paddingHorizontal: 10, paddingTop: 15, backgroundColor: '#fff' }}>
+      <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1, paddingHorizontal: 10, paddingTop: 15, backgroundColor: '#fff' }}>
         <GooglePlacesAutocomplete
           placeholder='Pickup point'
           minLength={2} 
@@ -185,7 +195,7 @@ class Reserve extends Component {
             onPress={this.onPress}  
           />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

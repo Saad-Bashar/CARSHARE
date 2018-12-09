@@ -39,7 +39,7 @@ export default class HomeScreen extends React.Component {
         <MapView
           style={{ flex: 1 }}
           region={this.state.region}
-          onRegionChange={this.onRegionChange}
+          // onRegionChange={this.onRegionChange}
         >
           <MapView.Marker
             coordinate={{ latitude: 4.2105, longitude: 101.9758 }}

@@ -77,14 +77,20 @@ export default class AboutScreen extends Component {
   }
 
   state = {
-    activeSections: []
+    activeSections: [],
   };
 
 
-  _renderHeader = section => {
+  _renderHeader = (section, index, isActive) => {
     return (
       <View style={styles.header}>
-        <Icon color="#03A9F4" name='add-circle' style={{ marginRight: 3 }} />
+        {
+          isActive ? 
+            <Icon color="#03A9F4" name='remove' style={{ marginRight: 3 }} />
+          :
+            <Icon color="#03A9F4" name='add-circle-outline' style={{ marginRight: 3 }} />
+        }
+        
         <Text style={styles.headerText}>{section.title}</Text>
       </View>
     );
@@ -106,8 +112,8 @@ export default class AboutScreen extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <View style={{ flex: 1, marginBottom: 5 }}>
-            <View style={{ marginBottom: 10 }}>
-              <Text style={styles.headerText}>Reviews</Text>
+            <View style={{ padding: 10 }}>
+              <Text style={styles.headerText}>Why SOCAR?</Text>
             </View>
             <Swiper dotColor="#fff" showsButtons={true} autoplay={true}>
               <View style={styles.slide1}>

@@ -3,7 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
-  ActivityIndicator
+  ActivityIndicator, TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 20,
+    justifyContent: 'center',
     backgroundColor: '#fff',
   }
 });
@@ -59,7 +60,7 @@ class Cars extends React.Component {
         <Text style={{ marginBottom: 10 }}>There are no more cars available now!</Text>
         <Button
           backgroundColor="#03A9F4"
-          title="Get More"
+          title="All Done!"
         />
       </Card>
     );
@@ -82,6 +83,9 @@ class Cars extends React.Component {
 
     return (
       <View style={styles.container}>
+        <MonoText style={{ textAlign: 'center' }}>
+          Please swipe right to reserve or swipe left to see the next car
+        </MonoText>
         <CarList
           data={data}
           renderCard={this.renderCard}

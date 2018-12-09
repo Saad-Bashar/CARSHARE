@@ -39,7 +39,7 @@ class Cars extends Component {
       }
     });
 
-    this.state = { panResponder, position, index: 0  };
+    this.state = { panResponder, position, index: 0 };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -47,7 +47,6 @@ class Cars extends Component {
       this.setState({ index: 0 });
     }
   }
-
 
   componentWillUpdate() {
     UIManager.setLayoutAnimationEnabledExperimental 
@@ -79,7 +78,7 @@ class Cars extends Component {
     direction === 'right' ? onSwipeRight(item) : onSwipeLeft(item);
     this.state.position.setValue({ x: 0, y: 0 });
     
-    if(direction === 'left') {
+    if(direction === 'right') {
       this.setState({ index: this.state.index + 1 }, () => {
         this.props.navigation.navigate('Reserve', { item })
       });
@@ -136,7 +135,7 @@ class Cars extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         {this.renderCards()}
       </View>
     )
