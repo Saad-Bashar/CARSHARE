@@ -65,6 +65,13 @@ Added a very simple splash screen with SOCAR logo.
 
 Since the requirements were to just create a car reservation system, I did not do the user authentication. So right now assuming that the app does not have any user for the demo purpose.
 
+### Debugging
+
+![debug](https://github.com/Saad-Bashar/CARSHARE/blob/master/assets/screenshots/debug.png)
+
+
+Debugging is one the most important tasks to do in RN projects. I used react native debugger extension tool to debug my code. This extenstion is super cool, because in real time I can see all my app redux data, state, actions and also inspect styling at the same time. 
+
 ### Few mentionable points:
 
 1.I used react-redux-firebase so the app's redux store is automatically connected to the firebase. So I do not manually need to call any redux actions to dispatch to firebase
