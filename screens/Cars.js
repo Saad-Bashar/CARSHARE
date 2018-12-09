@@ -84,7 +84,7 @@ class Cars extends React.Component {
     return (
       <View style={styles.container}>
         <MonoText style={{ textAlign: 'center' }}>
-          Please swipe right to reserve or swipe left to see the next car
+          Swipe right to reserve or {'\n'}Swipe left to see the next car
         </MonoText>
         <CarList
           data={data}
