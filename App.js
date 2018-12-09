@@ -22,11 +22,6 @@ export default class App extends React.Component {
       () => this.setState({ rehydrated: true }),
       () => this.setState({ authReady: true })
     );
-
-    firebase.database().ref('users/' + '1234567').set({
-      highscore: 100
-    });
-
   }
 
 
@@ -43,11 +38,10 @@ export default class App extends React.Component {
     } 
     return (
       <Provider store={this.store}>
-      <View style={{ flex: 1}}>
-      <AppNavigator />
-        <FlashMessage position="top" />
-      </View>
-        
+        <View style={{ flex: 1 }}>
+          <AppNavigator />
+          <FlashMessage position="top" />
+        </View> 
       </Provider>
     );
   }

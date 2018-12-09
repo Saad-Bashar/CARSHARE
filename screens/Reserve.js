@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
+import { View, Alert } from 'react-native';
+import { Button } from 'react-native-elements';
 import t from 'tcomb-form-native';
-var _ = require('lodash');
-import { showMessage, hideMessage } from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
 import { compose } from 'redux'
+
+var _ = require('lodash');
 
 const homePlace = { 
   description: 'Home', 

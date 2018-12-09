@@ -22,18 +22,22 @@ const styles = StyleSheet.create({
 
 
 class Cars extends React.Component {
-  static navigationOptions = {
-    headerTitle: "SOCARS",
-    headerRight: (
+  static navigationOptions = ({ navigation }) => ({
+    title: "SOCARS!",
+    headerRight: 
       <Button
+        onPress={() => navigation.navigate('MyReservations')}
         small
         borderRadius={5}
         fontSize={12}
         backgroundColor="#02d5ff"
-        title='Reservations' />
-    ),
-    headerStyle: {height: 60}
-  };
+        title='Reservations' 
+      />,
+    headerStyle: {
+      height: 60
+    }
+  });
+  
 
   renderCard = (item) => {
     return (
