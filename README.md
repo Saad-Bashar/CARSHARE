@@ -79,5 +79,5 @@ Debugging is one the most important tasks to do in RN projects. I used react nat
 2.Even though expo is not really a good choice for production level app, but in order to make a demo for this test this has been the best option since it can bootstap the app real quick.
 
 ### My Limitations: 
-Even though I have been given 5 days for this test, I had to finish it within this 2 days during the weekends since from next week I have my Master's final exams coming! So the animation might be a little buggy in real devices specially on android. But overall really enjoyed working on this.
+Even though I have been given 5 days for this test, I had to finish it within this 2 days during the weekends since from next week I have my Master's final exams coming! So I could not manage to do extensive testing on real devices, the animation might be a little buggy in physical devices specially on android. But overall, I really enjoyed working on this.
 
