@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
-import { View, Alert, KeyboardAvoidingView } from 'react-native';
+import { View, Alert, KeyboardAvoidingView, StyleSheet, TextInput, Modal,  Keyboard } from 'react-native';
 import { Button } from 'react-native-elements';
-import t from 'tcomb-form-native';
 import { showMessage } from "react-native-flash-message";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { connect } from 'react-redux';
-import { firebaseConnect } from 'react-redux-firebase';
-import { compose } from 'redux';
-import moment from 'moment';
-
-var _ = require('lodash');
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import { withFirebase } from 'react-redux-firebase'
 
 const homePlace = { 
   description: 'Home', 
@@ -21,41 +16,40 @@ const workPlace = {
   geometry: { location: { lat: 4.2106, lng: 101.9756 } 
 }};
 
-
-const stylesheet = _.cloneDeep(t.form.Form.stylesheet);
-
-stylesheet.textbox.normal.width = 300;
-stylesheet.controlLabel.normal.color = "#1faadb";
-
-let Form = t.form.Form;
-
-var Reservation = t.struct({
-  hours: t.String,
-  pickuptime: t.Date, 
-});
-
-const options = {
-  auto: 'placeholders',
-  fields: {
-    pickuptime: {
-      label: 'Pickup Time',
-      mode: 'date',
-    },
+const styles = StyleSheet.create({
+  textInput: {
+    height: 40, 
+    marginBottom: 15, 
+    borderColor: 'gray', 
+    borderWidth: 1, 
+    padding: 10, 
+    borderRadius: 5 
   },
-};
+  container: {
+    flex: 1, 
+    paddingHorizontal: 10, 
+    paddingTop: 15, 
+    backgroundColor: '#fff'
+  }
+})
 
-class Reserve extends Component {
+@withFirebase
+export default class Reserve extends Component {
   constructor(props) {
     super(props);
     this.state = {
       pickupPoint: '',
       dropoffPoint: '',
-      showMessage: false
+      showMessage: false,
+      modalVisible: false,
+      isFrom: null,
+      hours: '',
+      isDateTimePickerVisible: false,
     };
   }
 
   updateFirebase = (data) => {
-    const { firebase, navigation } = this.props;
+    const { firebase } = this.props;
     firebase.database().ref('/Reservations').push(data, function(error) {
       if (error) {
         showMessage({
@@ -70,30 +64,33 @@ class Reserve extends Component {
       }
     });
 
-    navigation.goBack();
+    this.setState({ 
+      pickupPoint: '', 
+      dropoffPoint: '', 
+      hours: '', 
+      pickuptime: ''
+    })
   }
 
   onPress = () => {
-    const { pickupPoint, dropoffPoint } = this.state;
+    const { pickupPoint, dropoffPoint, hours, pickuptime } = this.state;
     const { navigation } = this.props;
     const item = navigation.getParam('item', 'car');
     const model = item[1].Model;
   
-    if(pickupPoint && dropoffPoint) {
-      const value = this.refs.form.getValue();
-      if(value) {
-        let data = value;
-        data = Object.assign({ 
-          pickupPoint, 
-          dropoffPoint,
-          model,
-          isActive: true,
-          isComplete: false,
-          time: data.pickuptime.toString()
-        }, data);
-
-        this.updateFirebase(data);
-      }
+    if(pickupPoint && dropoffPoint && hours && pickuptime) {
+      let data;
+      data = Object.assign({
+        pickupPoint,
+        dropoffPoint,
+        pickuptime,
+        hours,
+        model,
+        isActive: true,
+        isComplete: false
+      }, data)
+      
+      this.updateFirebase(data);
     } else {
       Alert.alert(
         'Oops',
@@ -106,112 +103,113 @@ class Reserve extends Component {
     }    
   }
 
-  onPickupPoint = (data) => {
-    this.setState({
-      pickupPoint: data
-    })
-  }
+  _showDateTimePicker = () => { Keyboard.dismiss(); this.setState({ isDateTimePickerVisible: true });}
 
-  onDropoffPoint = (data) => {
-    this.setState({
-      dropoffPoint: data
-    })
+  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  _handleDatePicked = (date) => {
+    this.setState({ pickuptime: date.toString() })
+    this._hideDateTimePicker();
+  };
+
+  onSetLocation = (data) => {
+    const { isFrom, modalVisible } = this.state;
+    if(isFrom) this.setState({ pickupPoint: data, modalVisible: !modalVisible });
+    else this.setState({ dropoffPoint: data, modalVisible: !modalVisible });
   }
 
   render() {
     return (
-      <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1, paddingHorizontal: 10, paddingTop: 15, backgroundColor: '#fff' }}>
-        <GooglePlacesAutocomplete
-          placeholder='Pickup point'
-          minLength={2} 
-          autoFocus={false}
-          returnKeyType={'search'}
-          listViewDisplayed='true'  
-          fetchDetails={true}
-          renderDescription={row => row.description} 
-          onPress={this.onPickupPoint}
-          getDefaultValue={() => ''}
-          query={{
-            key: 'AIzaSyCoILimFA-jNjmsBHy8Vhe2tubGdL1ehx4',
-            language: 'en', 
-            types: '(cities)' 
-          }}
-          currentLocation={true} 
-          currentLocationLabel="Current location"
-          predefinedPlaces={[homePlace, workPlace]}
-          debounce={200} 
-          styles={{
-            textInputContainer: {
-              width: '100%',
-            },
-            description: {
-              fontWeight: 'bold'
-            },
-            predefinedPlacesDescription: {
-              color: '#1faadb'
-            }
-          }}
+      <KeyboardAvoidingView 
+        behavior="padding" 
+        enabled 
+        style={styles.container}
+      >
+        <TextInput
+          style={{ }}
+          placeholder="From *"
+          onFocus={() => {this.setState({ modalVisible: true, isFrom: true })}}
+          value={this.state.pickupPoint.description}
+          style={styles.textInput}
         />
-        <GooglePlacesAutocomplete
-          placeholder='Dropoff point'
-          minLength={2} 
-          autoFocus={false}
-          returnKeyType={'search'}
-          listViewDisplayed='true' 
-          fetchDetails={true}
-          renderDescription={row => row.description} 
-          onPress={this.onDropoffPoint}
-          getDefaultValue={() => ''}
-          query={{
-            key: 'AIzaSyCoILimFA-jNjmsBHy8Vhe2tubGdL1ehx4',
-            language: 'en', 
-            types: '(cities)' 
-          }}
-          currentLocation={true} 
-          currentLocationLabel="Current location"
-          predefinedPlaces={[homePlace, workPlace]}
-          debounce={200} 
-          styles={{
-            textInputContainer: {
-              width: '100%',
-            },
-            description: {
-              fontWeight: 'bold'
-            },
-            predefinedPlacesDescription: {
-              color: '#1faadb'
-            },
-            
-          }}
+        <TextInput
+          style={styles.textInput}
+          placeholder="To *"
+          onFocus={() => {this.setState({ modalVisible: true, isFrom: false })}}
+          value={this.state.dropoffPoint.description}
         />
-        <View style={{ flex: 2 }}>
-          <Form ref="form" type={Reservation} options={options}  />
-          <Button
-            small
-            borderRadius={5}
-            fontSize={18}
-            backgroundColor="#02d5ff"
-            title='Reserve' 
-            onPress={this.onPress}  
-          />
-        </View>
+        <TextInput
+          style={styles.textInput}
+          onChangeText={(text) => this.setState({ hours: text })}
+          placeholder="Hours *"
+          value={this.state.hours}
+          keyboardType={'numeric'}
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="Select your pickup time *"
+          onFocus={this._showDateTimePicker}
+          value={this.state.pickuptime}
+          returnKeyType={"none"}
+        />
+        <Button
+          small
+          borderRadius={5}
+          fontSize={18}
+          width={200}
+          backgroundColor="#02d5ff"
+          title='Reserve' 
+          onPress={this.onPress}
+          value={this.state.dropoffPoint.description}
+        />
+        <DateTimePicker
+          isVisible={this.state.isDateTimePickerVisible}
+          mode="datetime"
+          onConfirm={this._handleDatePicked}
+          onCancel={this._hideDateTimePicker}
+        />
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          <View style={{ flex: 1, marginTop: 30 }}>
+            <GooglePlacesAutocomplete
+              placeholder={this.state.isFrom ? 'Select your pickup location' : 'Select your dropoff location'}
+              minLength={2} 
+              autoFocus={true} 
+              returnKeyType={'search'}
+              listViewDisplayed='true'  
+              fetchDetails={true}
+              renderDescription={row => row.description} 
+              onPress={this.onSetLocation}
+              getDefaultValue={() => ''}
+              query={{
+                key: 'AIzaSyCoILimFA-jNjmsBHy8Vhe2tubGdL1ehx4',
+                language: 'en', 
+                types: '(cities)' 
+              }}
+              currentLocation={true} 
+              currentLocationLabel="Current location"
+              predefinedPlaces={[homePlace, workPlace]}
+              debounce={200} 
+              styles={{
+                textInputContainer: {
+                  width: '100%',
+                },
+                description: {
+                  fontWeight: 'bold'
+                },
+                predefinedPlacesDescription: {
+                  color: '#1faadb'
+                }
+              }}
+            />
+            </View>
+        </Modal>
       </KeyboardAvoidingView>
     );
   }
 }
-
-export default compose(
-  firebaseConnect(() => {
-    return [
-      'Cars'
-    ]
-  }),
-  connect(
-    (state) => {
-      return {
-        cars: state.firebase.data.Cars
-      }
-    } 
-  )
-)(Reserve)
-

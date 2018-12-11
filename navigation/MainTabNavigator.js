@@ -8,7 +8,8 @@ import ProfileScreen from '../screens/ProfileScreen';
 import AboutScreen from '../screens/AboutScreen';
 import Cars from '../screens/Cars';
 import Reserve from '../screens/Reserve';
-import MyReservations from '../screens/MyReservations'
+import MyReservations from '../screens/MyReservations';
+import AutoPlaces from '../screens/AutoPlaces';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen
@@ -32,7 +33,8 @@ HomeStack.navigationOptions = {
 const CarStack = createStackNavigator({
   Cars,
   Reserve,
-  MyReservations
+  MyReservations,
+  AutoPlaces
 });
 
 CarStack.navigationOptions = {

@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Dimensions } from 'react-native';
-import { TabView, SceneMap } from 'react-native-tab-view';
+import { TabView } from 'react-native-tab-view';
 import ActiveReservations from './ActiveReservations';
 import CompleteReservations from './CompleteReservations';
-
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
 import { compose } from 'redux'
-
 
 class MyReservations extends Component {
   static navigationOptions = () => ({

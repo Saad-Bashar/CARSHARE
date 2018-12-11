@@ -47,7 +47,7 @@ export default class ListItem extends Component {
         </View>
         {
           !isComplete &&
-          <View style={{ paddingTop: 2 }}>
+          <View style={{ paddingTop: 10 }}>
             <Button
               onPress={this.updateReservation}
               small

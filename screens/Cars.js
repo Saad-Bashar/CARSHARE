@@ -58,10 +58,6 @@ class Cars extends React.Component {
     return (
       <Card title="All Done!">
         <Text style={{ marginBottom: 10 }}>There are no more cars available now!</Text>
-        <Button
-          backgroundColor="#03A9F4"
-          title="All Done!"
-        />
       </Card>
     );
   }
