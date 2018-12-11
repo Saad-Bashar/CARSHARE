@@ -3,7 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
-  ActivityIndicator, TouchableOpacity
+  ActivityIndicator, ImageBackground
 } from 'react-native';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
@@ -24,19 +24,26 @@ const styles = StyleSheet.create({
 
 class Cars extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: "SOCARS!",
+    title: "SOCARS",  
     headerRight: 
       <Button
         onPress={() => navigation.navigate('MyReservations')}
         small
+        style={{ padding: 2 }}
         borderRadius={5}
         fontSize={12}
-        backgroundColor="#02d5ff"
+        color="#000"
+        backgroundColor="#fff"
         title='Reservations' 
       />,
     headerStyle: {
-      height: 60
-    }
+      height: 60,
+      backgroundColor: '#02d5ff'
+    },
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      color: '#fff'
+    },
   });
   
 
@@ -78,17 +85,23 @@ class Cars extends React.Component {
     }
 
     return (
-      <View style={styles.container}>
-        <MonoText style={{ textAlign: 'center' }}>
-          Swipe right to reserve or {'\n'}Swipe left to see the next car
-        </MonoText>
-        <CarList
-          data={data}
-          renderCard={this.renderCard}
-          renderNoMoreCards={this.renderNoMoreCards}
-          navigation={this.props.navigation}
-        />
-      </View>
+      <ImageBackground
+        source={require('../assets/images/bg.png')}
+        style={{width: '100%', height: '100%'}}
+      > 
+        <View style={styles.container}>
+          <MonoText style={{ textAlign: 'center' }}>
+            Swipe right to reserve or {'\n'}Swipe left to see the next car
+          </MonoText>
+          <CarList
+            data={data}
+            renderCard={this.renderCard}
+            renderNoMoreCards={this.renderNoMoreCards}
+            navigation={this.props.navigation}
+          />
+        </View> 
+      </ImageBackground>
+      
     );
   }
 }

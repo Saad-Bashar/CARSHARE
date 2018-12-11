@@ -70,11 +70,17 @@ const styles = StyleSheet.create({
 });
 
 export default class AboutScreen extends Component {
-  static navigationOptions = () => {
-    return {
-      title: 'About SOCAR'
-    }
-  }
+  static navigationOptions = ({ navigation }) => ({
+    title: "About",  
+    headerStyle: {
+      height: 60,
+      backgroundColor: '#02d5ff'
+    },
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      color: '#fff'
+    },
+  });
 
   state = {
     activeSections: [],
