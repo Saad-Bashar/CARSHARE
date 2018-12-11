@@ -65,6 +65,13 @@ Added a very simple splash screen with SOCAR logo.
 
 Since the requirements were to just create a car reservation system, I did not do the user authentication. So right now assuming that the app does not have any user for the demo purpose.
 
+### Debugging
+
+![debug](https://github.com/Saad-Bashar/CARSHARE/blob/master/assets/screenshots/debug.png)
+
+
+Debugging is one the most important tasks to do in RN projects. I used react native debugger extension tool to debug my code. This extenstion is super cool, because in real time I can see all my app redux data, state, actions and also inspect styling at the same time. 
+
 ### Few mentionable points:
 
 1.I used react-redux-firebase so the app's redux store is automatically connected to the firebase. So I do not manually need to call any redux actions to dispatch to firebase
@@ -72,5 +79,5 @@ Since the requirements were to just create a car reservation system, I did not d
 2.Even though expo is not really a good choice for production level app, but in order to make a demo for this test this has been the best option since it can bootstap the app real quick.
 
 ### My Limitations: 
-Even though I have been given 5 days for this test, I had to finish it within this 2 days during the weekends since from next week I have my Master's final exams coming! So the animation might be a little buggy in real devices specially on android. But overall really enjoyed working on this.
+Even though I have been given 5 days for this test, I had to finish it within this 2 days during the weekends since from next week I have my Master's final exams coming! So I could not manage to do extensive testing on real devices, the animation might be a little buggy in physical devices specially on android. But overall, I really enjoyed working on this.
 
