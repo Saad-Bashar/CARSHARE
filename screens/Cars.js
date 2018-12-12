@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 20,
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: 'transparent',
   }
 });
 
@@ -86,7 +86,7 @@ class Cars extends React.Component {
 
     return (
       <ImageBackground
-        source={require('../assets/images/bg.png')}
+        source={require('../assets/images/background.jpg')}
         style={{width: '100%', height: '100%'}}
       > 
         <View style={styles.container}>

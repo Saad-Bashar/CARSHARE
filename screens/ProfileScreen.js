@@ -5,7 +5,10 @@ import {
   View,
   Image,
 } from 'react-native';
+import { Button } from 'react-native-elements';
+import { withFirebase } from 'react-redux-firebase'
 
+@withFirebase
 export default class ProfileScreen extends Component {
   static navigationOptions = () => ({
     header: null
@@ -28,6 +31,15 @@ export default class ProfileScreen extends Component {
               saepe sapientem eu nam. Qui ne assum electram expetendis, 
               omittam deseruisse consequuntur ius an
             </Text>
+            <Button
+              style={{ marginTop: 20, width: 200, alignSelf: 'center' }}
+              large={false}
+              title="Logout"
+              onPress={() => { this.props.firebase.logout()}}
+              borderRadius={5}
+              fontSize={14}
+              backgroundColor="#02d5ff"
+            />
           </View>
         </View>
       </View>

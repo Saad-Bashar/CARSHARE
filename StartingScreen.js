@@ -3,18 +3,17 @@ import { View, ActivityIndicator } from 'react-native';
 import firebase from 'firebase';
 
 export default class StartingScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.checkAuth();
-  }
-
-  checkAuth = () => {
-    const user = firebase.auth().currentUser;
-    if (user) {
-      this.props.navigation.navigate('Main');
-    } else {
-      this.props.navigation.navigate('Auth');
-    }
+  componentWillMount () {
+    const { navigation } = this.props;
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        navigation.navigate('Main')
+      } else {
+        // No user is signed in.
+        navigation.navigate('Auth')
+      }
+    });
   }
 
   render() {
@@ -25,3 +24,4 @@ export default class StartingScreen extends Component {
     );
   }
 }
+

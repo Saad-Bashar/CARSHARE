@@ -41,6 +41,7 @@ const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   transforms: [immutableTransform()],
+  blacklist: ['auth']
 }
 
 const persistedReducer = persistReducer(persistConfig, reducer)

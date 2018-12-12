@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Accordion from 'react-native-collapsible/Accordion';
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, ImageBackground } from 'react-native'
 import { Icon } from 'react-native-elements'
 import Swiper from 'react-native-swiper';
 
@@ -116,8 +116,12 @@ export default class AboutScreen extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#fff' }}>
-        <View style={{ flex: 1, marginBottom: 5 }}>
+      <ImageBackground
+        source={require('../assets/images/background.jpg')}
+        style={{width: '100%', height: '100%'}}
+      >
+        <View style={{ flex: 1, backgroundColor: 'transparent' }}>
+          <View style={{ flex: 1, marginBottom: 5 }}>
             <View style={{ padding: 10 }}>
               <Text style={styles.headerText}>Why SOCAR?</Text>
             </View>
@@ -133,19 +137,21 @@ export default class AboutScreen extends Component {
               </View>
             </Swiper>
           </View>
-        <View style={{ flex: 2 }}>
-          <View style={{ marginBottom: 10 }}>
-            <Text style={styles.headerText}>Frequently Asked Questions</Text>
+          <View style={{ flex: 2 }}>
+            <View style={{ marginBottom: 10 }}>
+              <Text style={styles.headerText}>Frequently Asked Questions</Text>
+            </View>
+            <Accordion
+              sections={SECTIONS}
+              activeSections={this.state.activeSections}
+              renderHeader={this._renderHeader}
+              renderContent={this._renderContent}
+              onChange={this._updateSections}
+            />
           </View>
-          <Accordion
-            sections={SECTIONS}
-            activeSections={this.state.activeSections}
-            renderHeader={this._renderHeader}
-            renderContent={this._renderContent}
-            onChange={this._updateSections}
-          />
         </View>
-      </View>
+      </ImageBackground>
+        
     );
   }
 }
