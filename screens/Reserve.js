@@ -91,6 +91,7 @@ export default class Reserve extends Component {
       }, data)
       
       this.updateFirebase(data);
+      this.props.navigation.goBack();
     } else {
       Alert.alert(
         'Oops',
@@ -152,16 +153,16 @@ export default class Reserve extends Component {
           value={this.state.pickuptime}
           returnKeyType={"none"}
         />
-        <Button
-          small
-          borderRadius={5}
-          fontSize={18}
-          width={200}
-          backgroundColor="#02d5ff"
-          title='Reserve' 
-          onPress={this.onPress}
-          value={this.state.dropoffPoint.description}
-        />
+        <View style={{ marginTop: 20 }}>
+          <Button
+            style={{ borderRadius: 5, width: 200, alignSelf: 'center' }}
+            fontSize={18}
+            backgroundColor="#02d5ff"
+            title='Reserve' 
+            onPress={this.onPress}
+            value={this.state.dropoffPoint.description}
+          />
+        </View>
         <DateTimePicker
           isVisible={this.state.isDateTimePickerVisible}
           mode="datetime"
@@ -173,7 +174,7 @@ export default class Reserve extends Component {
           transparent={false}
           visible={this.state.modalVisible}
           onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
+            console.log('Modal has been closed.');
           }}>
           <View style={{ flex: 1, marginTop: 30 }}>
             <GooglePlacesAutocomplete

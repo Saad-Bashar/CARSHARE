@@ -6,10 +6,17 @@ import CompleteReservations from './CompleteReservations';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
 import { compose } from 'redux'
+import colors from '../constants/Colors'
 
 class MyReservations extends Component {
   static navigationOptions = () => ({
     title: "My Reservations",
+    headerStyle: {
+      backgroundColor: colors.primaryColor,
+    }, 
+    headerBackTitleStyle: {
+      color: '#fff'
+    }
   });
 
   constructor(props) {

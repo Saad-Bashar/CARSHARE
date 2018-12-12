@@ -4,9 +4,9 @@ import {
   Text,
   View,
   Image,
-  ImageBackground
+  ImageBackground, Button
 } from 'react-native';
-import { Button } from 'react-native-elements';
+// import { Button } from 'react-native-elements';
 import { withFirebase } from 'react-redux-firebase'
 
 @withFirebase
@@ -37,15 +37,21 @@ export default class ProfileScreen extends Component {
                   saepe sapientem eu nam. Qui ne assum electram expetendis, 
                   omittam deseruisse consequuntur ius an
                 </Text>
-                <Button
-                  style={{ marginTop: 20, width: 200, alignSelf: 'center' }}
-                  large={false}
+                {/* <Button
+                  style={{ marginTop: 20, width: 200, backgroundColor: '#02d5ff', alignSelf: 'center' }}
                   title="Logout"
                   onPress={() => { this.props.firebase.logout()}}
                   borderRadius={5}
                   fontSize={14}
                   backgroundColor="#02d5ff"
-                />
+                /> */}
+                <View style={{ marginTop: 20 }}>
+                  <Button
+                    onPress={() => {this.props.firebase.logout()}}
+                    title="Logout"
+                    color="#841584"
+                  />
+                </View>
               </View>
           </View>
         </View>
@@ -79,7 +85,7 @@ const styles = StyleSheet.create({
   },
   body:{
     marginTop:40,
-    backgroundColor: 'transparent'
+    // backgroundColor: 'transparent'
   },
   bodyContent: {
     alignItems: 'center',

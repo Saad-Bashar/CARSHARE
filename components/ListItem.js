@@ -41,7 +41,7 @@ export default class ListItem extends Component {
         <View>
           <MonoText> Your Car - {item[1].model} </MonoText>
           <MonoText> You take the car for - {item[1].hours} hours </MonoText>
-          <MonoText> Time - {item[1].time} </MonoText>
+          <MonoText> Time - {item[1].pickuptime} </MonoText>
           <MonoText> Pickup Point - {item[1].pickupPoint.description} </MonoText>
           <MonoText> Dropoff Point - {item[1].dropoffPoint.description} </MonoText>
         </View>

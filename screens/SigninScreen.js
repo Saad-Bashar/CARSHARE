@@ -37,14 +37,16 @@ class SigninScreen extends Component {
   onPress = () => {
     const { email, password } = this.state;
 
-    const pattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const result  = pattern.test(email);
+    let cleanedEmail = email.trim();
 
-    if(!email || !result) this.setState({ emailError: 'Inavlid Email'});
+    const pattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const result  = pattern.test(cleanedEmail);
+
+    if(!cleanedEmail || !result) this.setState({ emailError: 'Inavlid Email'});
     if(!password) this.setState({ passwordError: 'Password is required '});
 
-    if(email && password && result) {
-      this.props.loginUser(email, password);
+    if(cleanedEmail && password && result) {
+      this.props.loginUser(cleanedEmail, password);
     }
   }
 
