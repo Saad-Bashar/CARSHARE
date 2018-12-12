@@ -122,10 +122,14 @@ export default class AboutScreen extends Component {
       >
         <View style={{ flex: 1, backgroundColor: 'transparent' }}>
           <View style={{ flex: 1, marginBottom: 5 }}>
-            <View style={{ padding: 10 }}>
+            <View style={{ padding: 15 }}>
               <Text style={styles.headerText}>Why SOCAR?</Text>
             </View>
-            <Swiper dotColor="#fff" showsButtons={true} autoplay={true}>
+            <Swiper 
+              dotColor="#fff" 
+              showsButtons={false} 
+              autoplay={true}
+            >
               <View style={styles.slide1}>
                 <Text style={styles.text}>Affordable</Text>
               </View>
@@ -138,7 +142,7 @@ export default class AboutScreen extends Component {
             </Swiper>
           </View>
           <View style={{ flex: 2 }}>
-            <View style={{ marginBottom: 10 }}>
+            <View style={{ padding: 15 }}>
               <Text style={styles.headerText}>Frequently Asked Questions</Text>
             </View>
             <Accordion

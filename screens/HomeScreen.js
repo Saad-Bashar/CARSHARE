@@ -47,7 +47,7 @@ export default class HomeScreen extends React.Component {
           >
             <Image
               source={require('../assets/images/logo.png')}
-              style={{height: 40, width: 40}}
+              style={{height: 50, width: 50}}
             />
           </MapView.Marker>
           <MapView.Marker

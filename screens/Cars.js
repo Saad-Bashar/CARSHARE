@@ -11,7 +11,7 @@ import { compose } from 'redux'
 import { Card, Button } from 'react-native-elements';
 import CarList from './CarList'
 import { MonoText } from '../components/StyledText'
-
+import colors from '../constants/Colors'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -38,7 +38,7 @@ class Cars extends React.Component {
       />,
     headerStyle: {
       height: 60,
-      backgroundColor: '#02d5ff'
+      backgroundColor: colors.primaryColor
     },
     headerTitleStyle: {
       fontWeight: 'bold',
@@ -51,11 +51,10 @@ class Cars extends React.Component {
     return (
       <Card
         key={item[0]}
-        title={item[1].Model}
         image={{ uri: item[1].image }}
       >
-        <MonoText style={{ marginBottom: 10, color: '#03A9F4' }}>
-          {`Mileage - ${item[1].Mileage}\nYear - ${item[1].Year}\nTransmission - ${item[1].Transmission}`}
+        <MonoText style={{ marginBottom: 10, color: colors.primaryColor }}>
+          {`${item[1].Model}\nMileage - ${item[1].Mileage}\nYear - ${item[1].Year}\nTransmission - ${item[1].Transmission}`}
         </MonoText>
       </Card>
     );

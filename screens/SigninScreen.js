@@ -1,11 +1,25 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator, Image, KeyboardAvoidingView } from 'react-native';
+import { View, ActivityIndicator, Image, KeyboardAvoidingView, StyleSheet } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 import { Button } from 'react-native-elements'
 import { connect } from 'react-redux';
 import { loginUser } from '../actions/Auth';
 import { showMessage } from "react-native-flash-message";
+import colors from '../constants/Colors';
 
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1, 
+    padding: 25, 
+    backgroundColor: '#fff'
+  },
+  imageWrapper: {
+    marginTop: 40, 
+    justifyContent: 'center', 
+    alignItems: 'center'
+  }
+})
 
 class SigninScreen extends Component {
   static navigationOptions = {
@@ -46,7 +60,7 @@ class SigninScreen extends Component {
         onPress={this.onPress}
         borderRadius={5}
         fontSize={14}
-        backgroundColor="#02d5ff"
+        backgroundColor={colors.primaryColor}
       />
     );
   }
@@ -60,11 +74,15 @@ class SigninScreen extends Component {
       });
     }
     return (
-      <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1, padding: 25, backgroundColor: '#fff' }}>
-        <View style={{ marginTop: 40, justifyContent: 'center', alignItems: 'center' }}>
+      <KeyboardAvoidingView 
+        behavior="padding" 
+        enabled 
+        style={styles.container}
+      >
+        <View style={styles.imageWrapper}>
           <Image 
             source={require('../assets/images/logo.png')} 
-            style={{width: 150, height: 150}}
+            style={{ width: 150, height: 150 }}
             resizeMode="contain"
           />
         </View>

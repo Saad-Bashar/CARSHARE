@@ -25,6 +25,7 @@
     "ios": {
       "supportsTablet": true
     },
-    "description": "CARSHARING APP"
+    "description": "Demo car booking app",
+    "githubUrl": "https://github.com/Saad-Bashar/CARSHARE"
   }
 }
