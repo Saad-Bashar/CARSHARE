@@ -8,11 +8,13 @@ As per the discussio with Apo, tried to improve on few things which are listed b
 
 ### Signin & Signup functionalities
 
-1. User can sign in or sign up, I did not create seperate sceen for sign up for the demo. If user does not have already an account a new account will be created for them when they sign in with their email & Password.
+1. User can sign in or sign up, I did not create seperate sceen for sign up for the demo. If user does not have already an account, a new account will be created for them when they sign in with their email & Password.
 
 2. Validation in Signin
 
 3. Separate Redux module for user authentication
+
+** if you want to sign in with a test account just, then use email saad@test.com and password is password
 
 ### Separate Route
 
