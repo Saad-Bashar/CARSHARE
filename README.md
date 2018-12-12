@@ -2,6 +2,31 @@
 
 First of all, a great weekend building this app ;) Hope I fulfill the app requirements. I am going to list down what I have done in the app.
 
+## Update & Improvement
+
+As per the discussio with Apo, tried to improve on few things which are listed below:
+
+### Signin & Signup functionalities
+
+1. User can sign in or sign up, I did not create seperate sceen for sign up for the demo. If user does not have already an account a new account will be created for them when they sign in with their email & Password.
+
+2. Validation in Signin
+
+3. Separate Redux module for user authentication
+
+### Separate Route
+
+1. Now only the signed in user can go to the main app. 
+
+### Reservation Form
+
+1. Restructured the whole reservation form
+
+### Design Improvement
+
+1. Few design improvments, added background images in few screens and fix small issues related to design.
+
+
 ## Install and Run
 I built the app using **Expo** (Why? I will tell the reason later in this readme). So it is very easy to run the app. All you need is Expo Client in your mobile and scan the QRCODE to run the app. 
 
