@@ -3,8 +3,10 @@ import { View } from 'react-native';
 import { Provider } from 'react-redux';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
+import StartingScreen from './StartingScreen'
 import ConfigureStore from './ConfigureStore'
 import FlashMessage from "react-native-flash-message";
+// import StartingScreen from './StartingScreen';
 
 
 console.disableYellowBox = true;
@@ -23,6 +25,7 @@ export default class App extends React.Component {
       () => this.setState({ rehydrated: true }),
       () => this.setState({ authReady: true })
     );
+
   }
 
   render() {
