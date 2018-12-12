@@ -40,7 +40,7 @@ class SigninScreen extends Component {
     }
     return (
       <Button
-        style={{ marginTop: 35, width: 200, alignSelf: 'center' }}
+        style={{ width: 200, alignSelf: 'center' }}
         large={false}
         title="Login"
         onPress={this.onPress}
@@ -84,8 +84,11 @@ class SigninScreen extends Component {
           onChangeText={ (password) => this.setState({ password }) }
           error={passwordError}
           onFocus={() => passwordError && this.setState({ passwordError: '' })}
+          style={{ marginBottom: 40 }}
         />
-        {this.renderButton()}
+        <View style={{ top: 25 }}>
+          {this.renderButton()}        
+        </View>
       </KeyboardAvoidingView>
     );
   }
