@@ -26,11 +26,6 @@ export default class CompleteReservations extends Component {
           data={this.props.list}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
-          ItemSeparatorComponent={()=> {
-            return (
-              <View style={{ borderBottomColor: '#d3d3d3', borderBottomWidth: 1, paddingTop: 5 }} />
-            ); 
-          }}
         />
       </View>
     );

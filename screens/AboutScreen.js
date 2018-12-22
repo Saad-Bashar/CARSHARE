@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 30,
     fontWeight: 'bold',
+  
   }
 });
 
@@ -130,13 +131,13 @@ export default class AboutScreen extends Component {
               autoplay={true}
             >
               <View style={styles.slide1}>
-                <Text style={styles.text}>Affordable</Text>
+                <Text style={[styles.text, { letterSpacing: 8}]}>Affordable</Text>
               </View>
               <View style={styles.slide2}>
-                <Text style={styles.text}>Beautiful</Text>
+                <Text style={[styles.text, { letterSpacing: 8}]}>Beautiful</Text>
               </View>
               <View style={styles.slide3}>
-                <Text style={styles.text}>And Simple</Text>
+                <Text style={[styles.text, { letterSpacing: 8}]}>& Simple</Text>
               </View>
             </Swiper>
           </View>
