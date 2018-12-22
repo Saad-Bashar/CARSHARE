@@ -43,23 +43,23 @@ export default class ListItem extends Component {
           <View>
             <View style={{ flexDirection: 'row', alignItems:'center', marginBottom:10, borderBottomColor: '#c7c9cc', borderBottomWidth:1}}>
               <AntDesign name="car" size={16} color="#4E7094"/>
-              <Text style={{color:'#4E7094', fontSize:'16', fontWeight:'bold', letterSpacing:3}}>  {item[1].model} </Text>
+              <Text style={{color:'#4E7094', fontSize:16, fontWeight:'bold', letterSpacing:3}}>  {item[1].model} </Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems:'center', marginBottom:5  }}>
               <Entypo name="hour-glass" size={14} color="#4E7094"/>
-              <Text style={{color:'#4E7094', fontSize:'14', fontWeight:'400', letterSpacing:1, marginLeft:10 }}>Riding Hour: {item[1].hours}hr</Text>
+              <Text style={{color:'#4E7094', fontSize:14, fontWeight:'400', letterSpacing:1, marginLeft:10 }}>Riding Hour: {item[1].hours}hr</Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems:'center', marginBottom:5  }}>
               <AntDesign name="clockcircle" size={14} color="#4E7094"/>
-              <Text style={{color:'#4E7094', fontSize:'14', fontWeight:'400', letterSpacing:1, marginLeft:10 }}>Time: {item[1].pickuptime.slice(0, 21)} </Text>
+              <Text style={{color:'#4E7094', fontSize:14, fontWeight:'400', letterSpacing:1, marginLeft:10 }}>Time: {item[1].pickuptime.slice(0, 21)} </Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems:'center', marginBottom:5  }}>
               <AntDesign name="caretright" size={14} color="#4E7094"/>
-              <Text style={{color:'#4E7094', fontSize:'14', fontWeight:'400', letterSpacing:1, marginLeft:10 }}>Pickup Point: {item[1].pickupPoint.description}</Text>
+              <Text style={{color:'#4E7094', fontSize:14, fontWeight:'400', letterSpacing:1, marginLeft:10 }}>Pickup Point: {item[1].pickupPoint.description}</Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems:'center', marginBottom:5,  }}>
               <AntDesign name="caretleft" size={14} color="#4E7094"/>
-              <Text style={{color:'#4E7094', fontSize:'14', fontWeight:'400', marginLeft:10 ,letterSpacing:1}}>Dropoff Point: {item[1].dropoffPoint.description}</Text>
+              <Text style={{color:'#4E7094', fontSize:14, fontWeight:'400', marginLeft:10 ,letterSpacing:1}}>Dropoff Point: {item[1].dropoffPoint.description}</Text>
             </View>
           </View>
         
