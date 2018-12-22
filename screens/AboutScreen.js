@@ -22,6 +22,7 @@ const SECTIONS = [
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 60,
     backgroundColor: '#F5FCFF',
   },
   title: {
@@ -39,6 +40,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
     fontWeight: '500',
+  },
+  text: {
+    color: '#fff',
+    fontSize: 18
   },
   content: {
     padding: 20,
@@ -70,17 +75,9 @@ const styles = StyleSheet.create({
 });
 
 export default class AboutScreen extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: "About",  
-    headerStyle: {
-      height: 60,
-      backgroundColor: '#02d5ff'
-    },
-    headerTitleStyle: {
-      fontWeight: 'bold',
-      color: '#fff'
-    },
-  });
+  static navigationOptions = {
+    header: null,
+  };
 
   state = {
     activeSections: [],
@@ -117,13 +114,13 @@ export default class AboutScreen extends Component {
   render() {
     return (
       <ImageBackground
-        source={require('../assets/images/background.jpg')}
+        source={require('../assets/images/bgBlue.png')}
         style={{width: '100%', height: '100%'}}
       >
-        <View style={{ flex: 1, backgroundColor: 'transparent' }}>
+        <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: 60 }}>
           <View style={{ flex: 1, marginBottom: 5 }}>
             <View style={{ padding: 15 }}>
-              <Text style={styles.headerText}>Why SOCAR?</Text>
+              <Text style={styles.text}>Why SOCAR?</Text>
             </View>
             <Swiper 
               dotColor="#fff" 
@@ -143,7 +140,7 @@ export default class AboutScreen extends Component {
           </View>
           <View style={{ flex: 2 }}>
             <View style={{ padding: 15 }}>
-              <Text style={styles.headerText}>Frequently Asked Questions</Text>
+              <Text style={styles.text}>FAQ</Text>
             </View>
             <Accordion
               sections={SECTIONS}
