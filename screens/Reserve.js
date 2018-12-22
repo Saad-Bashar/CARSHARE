@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import { View, Alert, KeyboardAvoidingView, StyleSheet, TextInput, Modal,  Keyboard } from 'react-native';
+import { View, Alert, Text, KeyboardAvoidingView, TouchableOpacity, StyleSheet, TextInput, Modal, ImageBackground,  Keyboard } from 'react-native';
 import { Button } from 'react-native-elements';
 import { showMessage } from "react-native-flash-message";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import { withFirebase } from 'react-redux-firebase'
+import NumericInput from 'react-native-numeric-input';
+import { withFirebase } from 'react-redux-firebase';
+import { FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+
+
 
 const homePlace = { 
   description: 'Home', 
@@ -27,14 +31,37 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1, 
-    paddingHorizontal: 10, 
-    paddingTop: 15, 
-    backgroundColor: '#fff'
+    paddingHorizontal: 25, 
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent'
+  },
+  inputWrapper: {
+    flexDirection: 'row',
+    paddingBottom: 30
+  },
+  input: {
+    flex: 1, 
+    color: '#fff', 
+    borderBottomColor: '#fff', 
+    borderBottomWidth: 1, 
+    paddingLeft: 30, 
+    padding:10
+  },
+  icon: {
+    alignSelf: 'center', 
+    left: 20, 
+    width: 15, 
+    height: 15
   }
 })
 
 @withFirebase
 export default class Reserve extends Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -43,7 +70,7 @@ export default class Reserve extends Component {
       showMessage: false,
       modalVisible: false,
       isFrom: null,
-      hours: '',
+      hours: 1,
       isDateTimePickerVisible: false,
     };
   }
@@ -121,96 +148,156 @@ export default class Reserve extends Component {
 
   render() {
     return (
-      <KeyboardAvoidingView 
-        behavior="padding" 
-        enabled 
-        style={styles.container}
+      <ImageBackground
+        source={require('../assets/images/bgBlue.png')}
+        style={{width: '100%', height: '100%'}}
       >
-        <TextInput
-          style={{ }}
-          placeholder="From *"
-          onFocus={() => {this.setState({ modalVisible: true, isFrom: true })}}
-          value={this.state.pickupPoint.description}
-          style={styles.textInput}
-        />
-        <TextInput
-          style={styles.textInput}
-          placeholder="To *"
-          onFocus={() => {this.setState({ modalVisible: true, isFrom: false })}}
-          value={this.state.dropoffPoint.description}
-        />
-        <TextInput
-          style={styles.textInput}
-          onChangeText={(text) => this.setState({ hours: text })}
-          placeholder="Hours *"
-          value={this.state.hours}
-          keyboardType={'numeric'}
-        />
-        <TextInput
-          style={styles.textInput}
-          placeholder="Select your pickup time *"
-          onFocus={this._showDateTimePicker}
-          value={this.state.pickuptime}
-          returnKeyType={"none"}
-        />
-        <View style={{ marginTop: 20 }}>
-          <Button
-            style={{ borderRadius: 5, width: 200, alignSelf: 'center' }}
-            fontSize={18}
-            backgroundColor="#02d5ff"
-            title='Reserve' 
-            onPress={this.onPress}
-            value={this.state.dropoffPoint.description}
-          />
-        </View>
-        <DateTimePicker
-          isVisible={this.state.isDateTimePickerVisible}
-          mode="datetime"
-          onConfirm={this._handleDatePicked}
-          onCancel={this._hideDateTimePicker}
-        />
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            console.log('Modal has been closed.');
-          }}>
-          <View style={{ flex: 1, marginTop: 30 }}>
-            <GooglePlacesAutocomplete
-              placeholder={this.state.isFrom ? 'Select your pickup location' : 'Select your dropoff location'}
-              minLength={2} 
-              autoFocus={true} 
-              returnKeyType={'search'}
-              listViewDisplayed='true'  
-              fetchDetails={true}
-              renderDescription={row => row.description} 
-              onPress={this.onSetLocation}
-              getDefaultValue={() => ''}
-              query={{
-                key: 'AIzaSyCoILimFA-jNjmsBHy8Vhe2tubGdL1ehx4',
-                language: 'en', 
-                types: '(cities)' 
-              }}
-              currentLocation={true} 
-              currentLocationLabel="Current location"
-              predefinedPlaces={[homePlace, workPlace]}
-              debounce={200} 
-              styles={{
-                textInputContainer: {
-                  width: '100%',
-                },
-                description: {
-                  fontWeight: 'bold'
-                },
-                predefinedPlacesDescription: {
-                  color: '#1faadb'
-                }
-              }}
+        <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={{ position: 'absolute', zIndex: 4, top: 35, padding: 20}}>
+          <Ionicons name="ios-arrow-back" size={30} color="#fff"/>
+        </TouchableOpacity>
+
+        <KeyboardAvoidingView 
+          behavior="padding" 
+          enabled 
+          style={styles.container}
+        >
+          <MaterialCommunityIcons style={{ alignSelf: 'center' }} name="car-sports" size={80} color="#fff"/>
+          <View style={styles.inputWrapper}>
+            <FontAwesome style={{ left: 20, alignSelf: 'center' }} name="map-marker" size={18} color="#fff"/>
+            <TextInput
+              style={styles.input}
+              placeholder={'From *'}
+              placeholderTextColor="#fff"
+              selectionColor="#fff"
+              onFocus={() => {this.setState({ modalVisible: true, isFrom: true })}}
+              value={this.state.pickupPoint.description}
             />
-            </View>
-        </Modal>
-      </KeyboardAvoidingView>
+          </View>
+          <View style={styles.inputWrapper}>
+            <FontAwesome style={{ left: 20, alignSelf: 'center' }} name="map-marker" size={18} color="#fff"/>
+            <TextInput
+              style={styles.input}
+              placeholder={'To *'}
+              placeholderTextColor="#fff"
+              selectionColor="#fff"
+              onFocus={() => {this.setState({ modalVisible: true, isFrom: false })}}
+              value={this.state.dropoffPoint.description}
+            />
+          </View>
+          <View style={styles.inputWrapper}>
+            <FontAwesome style={{ left: 20, alignSelf: 'center' }} name="clock-o" size={18} color="#fff"/>
+            <TextInput
+              style={styles.input}
+              placeholder="Select your pickup time *"
+              onFocus={this._showDateTimePicker}
+              value={this.state.pickuptime}
+              returnKeyType={"none"}
+              placeholderTextColor="#fff"
+              selectionColor="#fff"
+            />
+          </View>
+          <View style={{ padding: 8 }}>
+            <Text style={{ color: '#fff' }}>Hours *</Text>
+            <NumericInput
+              initValue={this.state.hours}
+              value={this.state.hours} 
+              onChange={hours => this.setState({hours})} 
+              totalWidth={200} 
+              totalHeight={50} 
+              iconSize={25}
+              minValue={1}
+              valueType='real'
+              rounded 
+              textColor="#fff"
+              borderColor="#fff"
+              iconStyle={{ color: '#02d5ff' }} 
+            />
+          </View>
+          <View style={{ marginTop: 20 }}>
+            <Button
+              style={{ borderRadius: 5, width: 200, alignSelf: 'center' }}
+              fontSize={18}
+              borderRadius={5}
+              backgroundColor="#fff"
+              color="#02d5ff"
+              title='Reserve' 
+              onPress={this.onPress}
+              value={this.state.dropoffPoint.description}
+            />
+          </View>
+          <DateTimePicker
+            isVisible={this.state.isDateTimePickerVisible}
+            mode="datetime"
+            onConfirm={this._handleDatePicked}
+            onCancel={this._hideDateTimePicker}
+          />
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              console.log('Modal has been closed.');
+            }}>
+            <View style={{ flex: 1, marginTop: 30 }}>
+              <GooglePlacesAutocomplete
+                placeholder={this.state.isFrom ? 'Select your pickup location' : 'Select your dropoff location'}
+                minLength={2} 
+                autoFocus={true} 
+                returnKeyType={'search'}
+                listViewDisplayed='true'  
+                fetchDetails={true}
+                renderDescription={row => row.description} 
+                onPress={this.onSetLocation}
+                getDefaultValue={() => ''}
+                query={{
+                  key: 'AIzaSyCoILimFA-jNjmsBHy8Vhe2tubGdL1ehx4',
+                  language: 'en', 
+                  types: '(cities)' 
+                }}
+                currentLocation={true} 
+                currentLocationLabel="Current location"
+                predefinedPlaces={[homePlace, workPlace]}
+                debounce={200} 
+                styles={{
+                  textInputContainer: {
+                    width: '100%',
+                  },
+                  description: {
+                    fontWeight: 'bold'
+                  },
+                  predefinedPlacesDescription: {
+                    color: '#1faadb'
+                  }
+                }}
+              />
+              </View>
+          </Modal>
+        </KeyboardAvoidingView>
+
+      </ImageBackground>
+      
     );
   }
 }
+
+
+ {/* <TextInput
+    style={{ }}
+    placeholder="From *"
+    onFocus={() => {this.setState({ modalVisible: true, isFrom: true })}}
+    value={this.state.pickupPoint.description}
+    style={styles.textInput}
+  />
+  <TextInput
+    style={styles.textInput}
+    placeholder="To *"
+    onFocus={() => {this.setState({ modalVisible: true, isFrom: false })}}
+    value={this.state.dropoffPoint.description}
+  />
+  <TextInput
+    style={styles.textInput}
+    placeholder="Select your pickup time *"
+    onFocus={this._showDateTimePicker}
+    value={this.state.pickuptime}
+    returnKeyType={"none"}
+  /> */}

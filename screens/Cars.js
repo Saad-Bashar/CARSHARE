@@ -10,14 +10,11 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import { compose } from 'redux'
-import { Card, Button } from 'react-native-elements';
-import CarList from './CarList'
-import { MonoText } from '../components/StyledText'
-import colors from '../constants/Colors'
-import CarListWithoutAnimation from './CarListWithoutAnimation';
+import { compose } from 'redux';
 import { FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-
+import { Card } from 'react-native-elements';
+import CarList from './CarList';
+import CarListWithoutAnimation from './CarListWithoutAnimation';
 
 
 const styles = StyleSheet.create({
@@ -133,7 +130,7 @@ class Cars extends React.Component {
           </Text>
           <TouchableOpacity
             onPress={this.toggleView}
-            style={{ right: 25, alignSelf: 'flex-end' }}
+            style={{ right: 22, alignSelf: 'flex-end' }}
           >
             <FontAwesome name="exchange" size={18} color="#fff"/>
           </TouchableOpacity>
