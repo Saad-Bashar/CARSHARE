@@ -15,7 +15,7 @@ const SECTIONS = [
   },
   {
     title: "How do I unlock the cars?",
-    content: "SOCAR incorporates a keyless system that is operated by the SOCAR App. Members would not have to worry about losing the keys and forgetting to leave them in the car after the booking has ended. More details on here : http://blog.socar.my/2018/03/19/how-to-use-push-start-button/"
+    content: "SOCAR incorporates a keyless system that is operated by the SOCAR App. Members would not have to worry about losing the keys and forgetting to leave them in the car after the booking has ended."
   },
 ];
 
@@ -35,6 +35,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
     flexDirection: 'row',
     padding: 10,
+    borderBottomColor: "#909090",
+    borderBottomWidth: 0.5,
   },
   headerText: {
     textAlign: 'center',
@@ -53,7 +55,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(238,73,167,1)',
+    backgroundColor: '#FFD800',
   },
   slide2: {
     flex: 1,
@@ -65,7 +67,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(92,56,205,1)',
+    backgroundColor: '#E86850',
   },
   text: {
     color: '#fff',

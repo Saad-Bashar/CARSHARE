@@ -20,7 +20,7 @@ export default class ActiveReservations extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, padding: 10, backgroundColor: '#fff' }}>
+      <View style={{ flex: 1, padding: 10 }}>
         <FlatList
           data={this.props.list}
           keyExtractor={this._keyExtractor}

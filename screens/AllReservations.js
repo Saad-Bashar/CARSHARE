@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList } from 'react-native';
-import ListItem from '../components/ListItem'
+import { View, FlatList } from 'react-native';
+import ListItem from '../components/ListItem';
 
-export default class CompleteReservations extends Component {
+export default class AllReservations extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,7 +14,6 @@ export default class CompleteReservations extends Component {
   _renderItem = ({ item }) => (
     <ListItem
       item={item}
-      isComplete={true}
     />
   );
 

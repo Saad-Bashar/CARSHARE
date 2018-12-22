@@ -35,7 +35,7 @@ export default class ListItem extends Component {
   }
 
   render() {
-    const { item, isComplete } = this.props;
+    const { item } = this.props;
     return (
       <View style={{ padding: 5 }}>
         <View>
@@ -46,7 +46,7 @@ export default class ListItem extends Component {
           <MonoText> Dropoff Point - {item[1].dropoffPoint.description} </MonoText>
         </View>
         {
-          !isComplete &&
+          item[1].isActive &&
           <View style={{ paddingTop: 10 }}>
             <Button
               onPress={this.updateReservation}

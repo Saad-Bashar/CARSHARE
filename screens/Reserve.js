@@ -6,7 +6,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import NumericInput from 'react-native-numeric-input';
 import { withFirebase } from 'react-redux-firebase';
-import { FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 
@@ -152,7 +152,10 @@ export default class Reserve extends Component {
         source={require('../assets/images/bgBlue.png')}
         style={{width: '100%', height: '100%'}}
       >
-        <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={{ position: 'absolute', zIndex: 4, top: 35, padding: 20}}>
+        <TouchableOpacity 
+          onPress={() => this.props.navigation.goBack()} 
+          style={{ position: 'absolute', zIndex: 4, top: 35, padding: 20}}
+        >
           <Ionicons name="ios-arrow-back" size={30} color="#fff"/>
         </TouchableOpacity>
 
@@ -161,9 +164,18 @@ export default class Reserve extends Component {
           enabled 
           style={styles.container}
         >
-          <MaterialCommunityIcons style={{ alignSelf: 'center' }} name="car-sports" size={80} color="#fff"/>
+          <MaterialCommunityIcons 
+            style={{ alignSelf: 'center' }} 
+            name="car-sports" size={80} 
+            color="#fff"
+          />
           <View style={styles.inputWrapper}>
-            <FontAwesome style={{ left: 20, alignSelf: 'center' }} name="map-marker" size={18} color="#fff"/>
+            <FontAwesome 
+              style={{ left: 20, alignSelf: 'center' }} 
+              name="map-marker" 
+              size={18} 
+              color="#fff"
+            />
             <TextInput
               style={styles.input}
               placeholder={'From *'}
@@ -174,7 +186,11 @@ export default class Reserve extends Component {
             />
           </View>
           <View style={styles.inputWrapper}>
-            <FontAwesome style={{ left: 20, alignSelf: 'center' }} name="map-marker" size={18} color="#fff"/>
+            <FontAwesome 
+              style={{ left: 20, alignSelf: 'center' }} 
+              name="map-marker" size={18} 
+              color="#fff"
+            />
             <TextInput
               style={styles.input}
               placeholder={'To *'}
@@ -185,7 +201,12 @@ export default class Reserve extends Component {
             />
           </View>
           <View style={styles.inputWrapper}>
-            <FontAwesome style={{ left: 20, alignSelf: 'center' }} name="clock-o" size={18} color="#fff"/>
+            <FontAwesome 
+              style={{ left: 20, alignSelf: 'center' }} 
+              name="clock-o" 
+              size={18} 
+              color="#fff" 
+            />
             <TextInput
               style={styles.input}
               placeholder="Select your pickup time *"
@@ -222,7 +243,6 @@ export default class Reserve extends Component {
               color="#02d5ff"
               title='Reserve' 
               onPress={this.onPress}
-              value={this.state.dropoffPoint.description}
             />
           </View>
           <DateTimePicker

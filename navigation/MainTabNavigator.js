@@ -77,16 +77,16 @@ AboutStack.navigationOptions = {
   ),
 };
 
-const TestStack = createStackNavigator({
-  About: AboutScreen,
+const ReservationsStack = createStackNavigator({
+  MyReservations: MyReservations
 });
 
-TestStack.navigationOptions = {
+ReservationsStack.navigationOptions = {
   tabBarLabel: 'Reservations',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-information-circle-outline' : 'md-information-circle-outline'}
+      name={Platform.OS === 'ios' ? 'ios-list' : 'md-list'}
     />
   ),
 };
@@ -96,7 +96,7 @@ TestStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   CarStack,
-  TestStack,
+  ReservationsStack,
   ProfileStack,
   AboutStack,
 });
