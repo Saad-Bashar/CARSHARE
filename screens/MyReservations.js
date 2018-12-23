@@ -5,7 +5,7 @@ import ActiveReservations from './ActiveReservations';
 import CompleteReservations from './CompleteReservations';
 import AllReservations from './AllReservations';
 import { connect } from 'react-redux';
-import { firebaseConnect } from 'react-redux-firebase';
+import { firebaseConnect, getFirebase } from 'react-redux-firebase';
 import { compose } from 'redux'
 import colors from '../constants/Colors'
 import Button from '../components/Button'
@@ -86,7 +86,7 @@ class MyReservations extends Component {
         style={{width: '100%', height: '100%'}}
       >
         <View style={{ flex: 1 }}>
-          <View style={{ flexDirection:'row', justifyContent:'space-between', marginHorizontal:'2.5%', marginTop: 40 }}>
+          <View style={{ flexDirection:'row', justifyContent:'space-between', marginLeft:25, marginTop: 40 }}>
             <Button 
               onPressedProp   = {this.toStatus}
               customStyles    = {{ borderColor: '#fff',backgroundColor: '#fff', marginBottom:0 }}
@@ -131,24 +131,26 @@ class MyReservations extends Component {
 
 export default compose(
   firebaseConnect(() => {
+    const uid = getFirebase().auth().currentUser.uid;
     return [
-      'Reservations'
+      `Reservations/${uid}`
     ]
   }),
   connect(
     (state) => {
       let reservationsList = state.firebase.data.Reservations && Object.entries(state.firebase.data.Reservations);
+      let list = reservationsList && Object.entries(reservationsList[0][1])
       let activeList = [];
       let completeList = [];
 
-      if(reservationsList) {
-        activeList = reservationsList.filter((item) => {
+      if(list) {
+        activeList = list.filter((item) => {
           return (
             item[1].isActive == true
           );
         });
 
-        completeList = reservationsList.filter((item) => {
+        completeList = list.filter((item) => {
           return (
             item[1].isComplete == true
           );
@@ -158,7 +160,7 @@ export default compose(
       return {
         activeList: activeList,
         completeList: completeList,
-        allList: reservationsList
+        allList: list
       }
     } 
   )

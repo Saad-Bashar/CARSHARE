@@ -5,7 +5,10 @@ import { showMessage } from "react-native-flash-message";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import NumericInput from 'react-native-numeric-input';
-import { withFirebase } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { firebaseConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
+
 import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 
@@ -56,8 +59,8 @@ const styles = StyleSheet.create({
   }
 })
 
-@withFirebase
-export default class Reserve extends Component {
+
+class Reserve extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -76,8 +79,9 @@ export default class Reserve extends Component {
   }
 
   updateFirebase = (data) => {
-    const { firebase } = this.props;
-    firebase.database().ref('/Reservations').push(data, function(error) {
+    const { firebase, auth } = this.props;
+    const uid = auth.uid;
+    firebase.database().ref(`/Reservations/${uid}`).push(data, function(error) {
       if (error) {
         showMessage({
           message: "Something went wrong!",
@@ -236,11 +240,16 @@ export default class Reserve extends Component {
           </View>
           <View style={{ marginTop: 20 }}>
             <Button
-              style={{ borderRadius: 5, width: 200, alignSelf: 'center' }}
-              fontSize={18}
-              borderRadius={5}
-              backgroundColor="#fff"
+              buttonStyle={{
+                backgroundColor: "#fff",
+                width: 200,
+                alignSelf: 'center',
+                borderColor: "#fff",
+                borderWidth: 0,
+                borderRadius: 5
+              }}
               color="#02d5ff"
+              fontSize={18}
               title='Reserve' 
               onPress={this.onPress}
             />
@@ -300,24 +309,14 @@ export default class Reserve extends Component {
   }
 }
 
-
- {/* <TextInput
-    style={{ }}
-    placeholder="From *"
-    onFocus={() => {this.setState({ modalVisible: true, isFrom: true })}}
-    value={this.state.pickupPoint.description}
-    style={styles.textInput}
-  />
-  <TextInput
-    style={styles.textInput}
-    placeholder="To *"
-    onFocus={() => {this.setState({ modalVisible: true, isFrom: false })}}
-    value={this.state.dropoffPoint.description}
-  />
-  <TextInput
-    style={styles.textInput}
-    placeholder="Select your pickup time *"
-    onFocus={this._showDateTimePicker}
-    value={this.state.pickuptime}
-    returnKeyType={"none"}
-  /> */}
+export default compose(
+  firebaseConnect(() => {
+  }),
+  connect(
+    (state) => {
+      return {
+        auth: state.firebase.auth
+      }
+    } 
+  )
+)(Reserve)

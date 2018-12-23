@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Button, Card } from 'react-native-elements';
-import { MonoText } from './StyledText';
-import { withFirebase } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { firebaseConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 import { showMessage } from "react-native-flash-message";
 import { AntDesign, Entypo } from '@expo/vector-icons';
 
 
-@withFirebase
-export default class ListItem extends Component {      
+class ListItem extends Component {      
   constructor(props) {
     super(props);
     this.state = {
@@ -16,8 +16,9 @@ export default class ListItem extends Component {
   } 
 
   updateReservation = () => {
-    const { item } = this.props;
-    this.props.firebase.database().ref(`/Reservations/${item[0]}`).update({
+    const { item, firebase, auth } = this.props;
+    const uid = auth.uid;
+    firebase.database().ref(`/Reservations/${uid}/${item[0]}`).update({
       isActive: false,
       isComplete: true
     }, function(error) {
@@ -38,30 +39,29 @@ export default class ListItem extends Component {
   render() {
     const { item } = this.props;
     return (
-       
-        <Card containerStyle={{ elevation: 3, borderRadius: 5, borderColor:'#c7c9cc', borderWidth:1 }}>
-          <View>
-            <View style={{ flexDirection: 'row', alignItems:'center', marginBottom:10, borderBottomColor: '#c7c9cc', borderBottomWidth:1}}>
-              <AntDesign name="car" size={16} color="#4E7094"/>
-              <Text style={{color:'#4E7094', fontSize:16, fontWeight:'bold', letterSpacing:3}}>  {item[1].model} </Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems:'center', marginBottom:5  }}>
-              <Entypo name="hour-glass" size={14} color="#4E7094"/>
-              <Text style={{color:'#4E7094', fontSize:14, fontWeight:'400', letterSpacing:1, marginLeft:10 }}>Riding Hour: {item[1].hours}hr</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems:'center', marginBottom:5  }}>
-              <AntDesign name="clockcircle" size={14} color="#4E7094"/>
-              <Text style={{color:'#4E7094', fontSize:14, fontWeight:'400', letterSpacing:1, marginLeft:10 }}>Time: {item[1].pickuptime.slice(0, 21)} </Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems:'center', marginBottom:5  }}>
-              <AntDesign name="caretright" size={14} color="#4E7094"/>
-              <Text style={{color:'#4E7094', fontSize:14, fontWeight:'400', letterSpacing:1, marginLeft:10 }}>Pickup Point: {item[1].pickupPoint.description}</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems:'center', marginBottom:5,  }}>
-              <AntDesign name="caretleft" size={14} color="#4E7094"/>
-              <Text style={{color:'#4E7094', fontSize:14, fontWeight:'400', marginLeft:10 ,letterSpacing:1}}>Dropoff Point: {item[1].dropoffPoint.description}</Text>
-            </View>
+      <Card containerStyle={{ elevation: 3, borderRadius: 5, borderColor:'#c7c9cc', borderWidth:1 }}>
+        <View>
+          <View style={{ flexDirection: 'row', alignItems:'center', marginBottom:10, borderBottomColor: '#c7c9cc', borderBottomWidth:1}}>
+            <AntDesign name="car" size={16} color="#4E7094"/>
+            <Text style={{color:'#4E7094', fontSize:16, fontWeight:'bold', letterSpacing:3}}>  {item[1].model} </Text>
           </View>
+          <View style={{ flexDirection: 'row', alignItems:'center', marginBottom:5  }}>
+            <Entypo name="hour-glass" size={14} color="#4E7094"/>
+            <Text style={{color:'#4E7094', fontSize:14, fontWeight:'400', letterSpacing:1, marginLeft:10 }}>Riding Hour: {item[1].hours}hr</Text>
+          </View>
+          <View style={{ flexDirection: 'row', alignItems:'center', marginBottom:5  }}>
+            <AntDesign name="clockcircle" size={14} color="#4E7094"/>
+            <Text style={{color:'#4E7094', fontSize:14, fontWeight:'400', letterSpacing:1, marginLeft:10 }}>Time: {item[1].pickuptime.slice(0, 21)} </Text>
+          </View>
+          <View style={{ flexDirection: 'row', alignItems:'center', marginBottom:5  }}>
+            <AntDesign name="caretright" size={14} color="#4E7094"/>
+            <Text style={{color:'#4E7094', fontSize:14, fontWeight:'400', letterSpacing:1, marginLeft:10 }}>Pickup Point: {item[1].pickupPoint.description}</Text>
+          </View>
+          <View style={{ flexDirection: 'row', alignItems:'center', marginBottom:5,  }}>
+            <AntDesign name="caretleft" size={14} color="#4E7094"/>
+            <Text style={{color:'#4E7094', fontSize:14, fontWeight:'400', marginLeft:10 ,letterSpacing:1}}>Dropoff Point: {item[1].dropoffPoint.description}</Text>
+          </View>
+        </View>
         
       {
         item[1].isActive &&
@@ -84,4 +84,14 @@ export default class ListItem extends Component {
   }
 }
 
-
+export default compose(
+  firebaseConnect(() => {
+  }),
+  connect(
+    (state) => {
+      return {
+        auth: state.firebase.auth
+      }
+    } 
+  )
+)(ListItem)

@@ -39,11 +39,16 @@ export default class ProfileScreen extends Component {
                 </Text>
                 <View style={{ marginTop: 20 }}>
                   <Button
-                    style={{ borderRadius: 5, width: 200, alignSelf: 'center' }}
-                    fontSize={18}
-                    borderRadius={5}
-                    backgroundColor="#fff"
+                    buttonStyle={{
+                      backgroundColor: "#fff",
+                      width: 200,
+                      alignSelf: 'center',
+                      borderColor: "#fff",
+                      borderWidth: 0,
+                      borderRadius: 5
+                    }}
                     color="#02d5ff"
+                    fontSize={18}
                     title='Log Out' 
                     onPress={() => { this.props.firebase.logout()}}
                   />
